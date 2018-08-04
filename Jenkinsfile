@@ -22,5 +22,9 @@ node{
       stage ('step2 ') {
         sh "terraform --version"
       }
+
+      stage ('step 3') {
+        sh "packer --version"
+      }
 }
 
