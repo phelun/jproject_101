@@ -29,7 +29,6 @@ import java.net.URL
 
 
 node{
-     ansiColor("xterm") {
       stage("Provision Deploy Stack") {
          script {
            env.AWS_ACCESS_KEY_ID="${AWS_KEY_ID}"
@@ -54,5 +53,4 @@ node{
       stage ('step 3') {
         sh "packer --version"
       }
-  }
 }
