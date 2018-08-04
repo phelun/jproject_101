@@ -14,22 +14,35 @@ import groovy.json.JsonOutput
 import java.net.URL
 
 
-properties([
-  parameters([
-    string(defaultValue: ' ', description: 'Any additonal options, e.g. -vvv', name: 'ansible_options'),
-    choice(choices: "inseason\nnap", description: "Brand to deploy to", name: "brand"),
-    string(description: "Environment to deploy to. e.g. int00", name: "environment"),
-    choice(choices: "blue\ngreen", name: "stack"),
-    choice(choices: "wcs\nwxs\ncms", name: "application"),
-    choice(description: "Required only for WCS deploy", choices: 'full\ndelta', name: 'deploy_type'),
-    string(description: "Artifactory build name from which the artifacts are fetched", name: "ArtifactoryBuild"),
-    string(description: "Artifactory build number from which the artifacts are fetched", name: "ArtifactoryBuildNumber")
-  ])
-])
-
+//properties([
+// parameters([
+//    string(defaultValue: ' ', description: 'Any additonal options, e.g. -vvv', name: 'ansible_options'),
+//    choice(choices: "inseason\nnap", description: "Brand to deploy to", name: "brand"),
+//    string(description: "Environment to deploy to. e.g. int00", name: "environment"),
+//    choice(choices: "blue\ngreen", name: "stack"),
+//    choice(choices: "wcs\nwxs\ncms", name: "application"),
+//    choice(description: "Required only for WCS deploy", choices: 'full\ndelta', name: 'deploy_type'),
+//    string(description: "Artifactory build name from which the artifacts are fetched", name: "ArtifactoryBuild"),
+//    string(description: "Artifactory build number from which the artifacts are fetched", name: "ArtifactoryBuildNumber")
+//  ])
+//])
 
 
 node{
+     ansiColor("xterm") {
+      stage("Provision Deploy Stack") {
+         script {
+           env.AWS_ACCESS_KEY_ID="${AWS_KEY_ID}"
+           env.AWS_SECRET_ACCESS_KEY="${AWS_SECRET}"
+           env.AWS_DEFAULT_REGION="eu-west-1"
+         }
+         sh """
+           cd demo-1_simple_instance_provisioning
+           terraform init
+           terraform plan
+         """
+      }
+
       stage ('step 1') {
         sh "aws --version"
       }
@@ -41,5 +54,5 @@ node{
       stage ('step 3') {
         sh "packer --version"
       }
+  }
 }
-
