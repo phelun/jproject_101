@@ -28,7 +28,13 @@ import java.net.URL
 //])
 
 
-node{
+node() {
+    withCredentials([
+      usernamePassword(
+        //credentialsId: "vault_jenkins_cred_${aws_creds}",
+        usernameVariable: "AWS_KEY_ID",
+        passwordVariable: "AWS_SECRET"
+      )
       stage("Provision Deploy Stack") {
          script {
            env.AWS_ACCESS_KEY_ID="${AWS_KEY_ID}"
