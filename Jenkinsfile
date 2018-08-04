@@ -15,8 +15,12 @@ import java.net.URL
 
 
 node{
-      stage ('step 1'){
+      stage ('step 1') {
         sh "aws --version"
+      }
+
+      stage ('step2 ') {
+        sh "terraform --version"
       }
 }
 
