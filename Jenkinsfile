@@ -29,17 +29,6 @@ import java.net.URL
 
 
 node() {
-      stage ("Provision Deploy Stack") {
-            withCredentials([
-              usernamePassword(credentialsId: 'AWS_KEY_ID', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY_ID')
-            ]) {
-            sh """
-              cd demo-1_simple_instance_provisioning
-              terraform init
-              terraform plan
-            """
-            }
-      }
 
       stage ('step 1') {
         sh "aws --version"
