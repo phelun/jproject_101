@@ -29,23 +29,18 @@ import java.net.URL
 
 
 node() {
-    withCredentials([
-      usernamePassword(
-        //credentialsId: "vault_jenkins_cred_${aws_creds}",
-        usernameVariable: "AWS_KEY_ID",
-        passwordVariable: "AWS_SECRET"
-      )
       stage("Provision Deploy Stack") {
-         script {
-           env.AWS_ACCESS_KEY_ID="${AWS_KEY_ID}"
-           env.AWS_SECRET_ACCESS_KEY="${AWS_SECRET}"
-           env.AWS_DEFAULT_REGION="eu-west-1"
-         }
-         sh """
-           cd demo-1_simple_instance_provisioning
-           terraform init
-           terraform plan
-         """
+          step {
+            withCredentials([
+              usernamePassword(credentialsId: 'ada90a34-30ef-47fb-8a7f-a97fe69ff93f', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY_ID)
+            )] {
+            sh """
+              cd demo-1_simple_instance_provisioning
+              terraform init
+              terraform plan
+            """
+          }
+        }
       }
 
       stage ('step 1') {
