@@ -39,8 +39,8 @@ node() {
               terraform init
               terraform plan
             """
+            }
           }
-        }
       }
 
       stage ('step 1') {
