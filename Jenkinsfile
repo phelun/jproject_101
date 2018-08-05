@@ -30,7 +30,7 @@ import java.net.URL
 
 node() {
       stage ('deploy') {
-          steps {
+          step {
               withCredentials([[
                   $class: 'AmazonWebServicesCredentialsBinding',
                   credentialsId: 'jenkins',
