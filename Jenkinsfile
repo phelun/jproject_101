@@ -30,10 +30,10 @@ import java.net.URL
 
 node() {
       stage("Provision Deploy Stack") {
-          step {
+          steps {
             withCredentials([
               usernamePassword(credentialsId: 'ada90a34-30ef-47fb-8a7f-a97fe69ff93f', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY_ID')
-            )] {
+            ]) {
             sh """
               cd demo-1_simple_instance_provisioning
               terraform init
