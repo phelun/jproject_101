@@ -22,7 +22,9 @@ RUN apt-get -q update &&\
     unzip /tmp/terraform_0.11.7_linux_amd64.zip -d /usr/local/bin/ &&\
     unzip /tmp/packer_1.2.5_linux_amd64.zip -d /usr/local/bin
 
-RUN apt-get install software-properties-common -y &&\
+RUN apt-get remove --purge ansible -y &&\
+    apt-get install python3-software-properties -y &&\
+    #apt-add-repository ppa:ansible/ansible -y &&\
     apt-get -q update &&\
     apt-get install ansible -y
 
