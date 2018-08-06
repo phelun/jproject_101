@@ -43,6 +43,10 @@
           "destination": "/tmp/cleanup.sh"
     },
     {
+      "type": "ansible-local",
+      "playbook_file": "./jproject_101/ansible-playbook.yml"
+    },
+    {
       "type": "shell",
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
       "inline": [
