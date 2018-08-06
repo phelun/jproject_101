@@ -34,12 +34,12 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "bootstrap_docker_ce.sh",
+      "source": "./jproject_101/bootstrap_docker_ce.sh",
       "destination": "/tmp/bootstrap_docker_ce.sh"
     },
     {
           "type": "file",
-          "source": "cleanup.sh",
+          "source": "./jproject_101/cleanup.sh",
           "destination": "/tmp/cleanup.sh"
     },
     {
