@@ -28,6 +28,7 @@ node() {
 
       stage ('step 3') {
         sh "packer --version"
+        sh "ls -R"
       }
 
       stage ('packing') {
