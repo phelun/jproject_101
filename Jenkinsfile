@@ -19,6 +19,7 @@ node() {
 
       stage ('step 1') {
         sh "aws --version"
+        sh "git clone https://github.com/phelun/jproject_101.git"
       }
 
       stage ('step2 ') {
