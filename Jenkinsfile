@@ -52,7 +52,7 @@ node() {
       stage ('EC2 spinup') {
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
         sh 'terraform init ./jproject_101 '
-        sh 'terraform plan ./jproject_101 -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}'
+        sh 'terraform plan ./jproject_101 '
         sh 'terraform apply ./jproject_101 -lock=false -input=false -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY} '
         }
       }
