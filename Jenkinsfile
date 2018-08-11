@@ -36,7 +36,7 @@ node() {
         sh "which ansible-playbook"
       }
 
-      stage("Terraform Ahead") {
+      stage ("Terraform Ahead") {
            try {
              timeout(time: 120, unit: 'MINUTES') {
                input message: 'Proceed to next stage?'
@@ -53,7 +53,27 @@ node() {
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
         sh 'terraform init ./jproject_101 '
         sh 'terraform plan ./jproject_101 '
-        sh 'terraform apply ./jproject_101 -lock=false -input=false -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY} '
+        sh 'terraform apply ./jproject_101 -auto-approve -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY} '
         }
       }
+
+      stage ('Check EC2'){
+          try {
+            timeout(time:120, unit: 'MINUTE'){
+              input message: 'Destroy environment'
+            }
+          }
+          catch (err){
+              echo "Aborted by user!"
+              currentBuild.result = 'ABORTED'
+              error('Job Aborted')
+          }
+      }
+      stage ('Destroy instance'){
+        withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
+        sh 'terraform destroy ./jproject_101 -force
+
+        }
+      }
+
 }
