@@ -33,6 +33,7 @@ node() {
 
       stage ('step 4'){
         sh "ansible --version"
+        sh "which ansible-playbook"
       }
 
       stage ('packing') {

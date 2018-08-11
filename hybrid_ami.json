@@ -37,14 +37,16 @@
       "source": "./jproject_101/bootstrap_docker_ce.sh",
       "destination": "/tmp/bootstrap_docker_ce.sh"
     },
+
     {
-          "type": "file",
-          "source": "./jproject_101/cleanup.sh",
-          "destination": "/tmp/cleanup.sh"
+      "type": "file",
+      "source": "./jproject_101/ansible-playbook.yml",
+      "destination": "/tmp/ansible-playbook.yml"
     },
     {
-      "type": "ansible-local",
-      "playbook_file": "./jproject_101/ansible-playbook.yml"
+      "type": "file",
+      "source": "./jproject_101/cleanup.sh",
+      "destination": "/tmp/cleanup.sh"
     },
     {
       "type": "shell",
