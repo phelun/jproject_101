@@ -36,16 +36,16 @@ node() {
         sh "which ansible-playbook"
       }
 
-      stage ('packing') {
-        withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
-        sh 'packer build -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY} ./jproject_101/hybrid_ami.json 2>&1 | tee output.txt'
-        }
-      }
+      #stage ('packing') {
+      #  withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
+      #  sh 'packer build -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY} ./jproject_101/hybrid_ami.json 2>&1 | tee ./jproject_101/output.txt'
+      #  }
+      #}
 
-      stage ('Grab AMI ID') {
-        sh "tail -2 output.txt | head -2 | awk 'match(\$0, /ami-.*/) { print substr(\$0, RSTART, RLENGTH) }' > ./jproject_101/ami.txt"
-        sh "cat ./jproject_101/ami.txt"
-      }
+      #stage ('Grab AMI ID') {
+      #  sh "tail -2 ./jproject_101/output.txt | head -2 | awk 'match(\$0, /ami-.*/) { print substr(\$0, RSTART, RLENGTH) }' > ./jproject_101/ami.txt"
+      #  sh "cat ./jproject_101/ami.txt"
+      #}
 
       stage("Terraform Ahead") {
            try {
@@ -60,4 +60,11 @@ node() {
            }
       }
 
+      stage ('EC2 spinup') {
+        withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
+        sh 'terraform init -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}'
+        sh 'terraform plan -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}'
+        sh 'terraform apply -lock=false -input=false -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY} '
+        }
+      }
 }
