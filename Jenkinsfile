@@ -71,7 +71,7 @@ node() {
       }
       stage ('Destroy instance'){
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
-        sh 'terraform destroy ./jproject_101 -force
+        sh 'terraform destroy ./jproject_101 -force -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}'
 
         }
       }
