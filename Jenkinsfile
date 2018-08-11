@@ -53,7 +53,7 @@ node() {
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
         sh 'terraform init ./jproject_101 '
         sh 'terraform plan ./jproject_101 '
-        sh 'terraform apply ./jproject_101 '
+        sh 'terraform apply ./jproject_101 -auto-approve'
         }
       }
 
