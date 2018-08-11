@@ -57,20 +57,20 @@ node() {
       }
 
       stage ('Check EC2'){
-          try {
-            timeout(time:120, unit: 'MINUTE'){
-              input message: 'Destroy environment'
-            }
-          }
-          catch (err){
-              echo "Aborted by user!"
-              currentBuild.result = 'ABORTED'
-              error('Job Aborted')
-          }
+           try {
+             timeout(time: 120, unit: 'MINUTES') {
+               input message: 'Proceed to next stage?'
+             }
+           }
+           catch (err) {
+               echo "Aborted by user!"
+               currentBuild.result = 'ABORTED'
+               error('Job Aborted')
+           }
       }
       stage ('Destroy instance'){
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
-        sh 'terraform destroy ./jproject_101 -force -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}'
+        sh 'terraform destroy -force ./jproject_101'
 
         }
       }
