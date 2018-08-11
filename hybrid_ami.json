@@ -58,6 +58,7 @@
         "chmod +x cleanup.sh",
         "ls -alh /tmp",
         "./bootstrap_docker_ce.sh",
+        "/usr/bin/ansible-playbook /tmp/ansible-playbook.yml"
         "sleep 10",
         "./cleanup.sh"
       ]
