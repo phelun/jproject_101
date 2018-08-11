@@ -42,8 +42,8 @@ node() {
         }
       }
 
-      stage ('Grab AMI ID'){
-        sh "tail -2 output.txt | head -2 | awk 'match($0, /ami-.*/) { print substr($0, RSTART, RLENGTH) }' > sudo ./jproject_101/ami.txt"
+      stage ('Grab AMI ID') {
+        sh "tail -2 output.txt | head -2 | awk 'match(\$0, /ami-.*/) { print substr(\$0, RSTART, RLENGTH) }' > sudo ./jproject_101/ami.txt"
         sh "cat ./jproject_101/ami.txt"
       }
 
