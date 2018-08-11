@@ -16,7 +16,6 @@ import java.net.URL
 
 
 node() {
-      env.PATH += ":/jproject_101"
       stage ('step 1') {
         sh "aws --version"
         sh "git clone https://github.com/phelun/jproject_101.git"
@@ -51,9 +50,9 @@ node() {
 
       stage ('EC2 spinup') {
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
-        sh 'terraform init '
-        sh 'terraform plan -no-color -out=create.tfplan '
-        sh 'terraform apply -no-color create.tfplan'
+        sh 'terraform init ./jproject_101'
+        sh 'terraform plan -no-color -out=create.tfplan ./jproject_101'
+        sh 'terraform apply -no-color create.tfplan ./jproject_101'
         }
       }
 
