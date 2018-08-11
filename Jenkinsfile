@@ -16,7 +16,7 @@ import java.net.URL
 
 
 node() {
-
+      env.PATH += ":/jproject_101"
       stage ('step 1') {
         sh "aws --version"
         sh "git clone https://github.com/phelun/jproject_101.git"
