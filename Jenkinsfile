@@ -14,7 +14,7 @@ import groovy.json.JsonOutput
 import java.net.URL
 
 def seperator80 = '\u2739' * 80
-def seperator80 = '\u2739' * 20
+def seperator20 = '\u2739' * 20
 
 node() {
       stage ('step 1') {
