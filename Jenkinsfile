@@ -13,23 +13,23 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import java.net.URL
 
-def seperator80 = '\u2739' * 80
+def seperator60 = '\u2739' * 60
 def seperator20 = '\u2739' * 20
 
 node() {
       stage ('step 1') {
-        echo "${seperator80}\n${seperator20} AWScli Version \n${seperator80}"
+        echo "${seperator60}\n${seperator20} AWScli Version \n${seperator60}"
         sh "aws --version"
         sh "git clone https://github.com/phelun/jproject_101.git"
       }
 
       stage ('step2 ') {
-        echo "${seperator80}\n${seperator20} Terraform Version \n${seperator80}"
+        echo "${seperator60}\n${seperator20} Terraform Version \n${seperator60}"
         sh "terraform --version"
       }
 
       stage ('step 3') {
-        echo "${seperator80}\n${seperator20} Packer Version \n${seperator80}"
+        echo "${seperator60}\n${seperator20} Packer Version \n${seperator60}"
         sh "packer --version"
         sh "ls -R"
       }
