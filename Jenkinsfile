@@ -3,6 +3,7 @@
         * Standard igroovy comments
         * This should be my template scripted pipeline
         * More comments
+        * 1 -
 */
 
 
@@ -51,7 +52,7 @@ node() {
 
       stage ("Terraform Ahead") {
            try {
-             timeout(time: 120, unit: 'MINUTES') {
+             timeout(time: 30, unit: 'MINUTES') {
                input message: 'Proceed to next stage?'
              }
            }
@@ -67,7 +68,7 @@ node() {
         sh """
            cd ./jproject_101
            terraform init
-           terraform plan -no-color -out=create.tfplan
+           terraform plan -out=create.tfplan
            terraform apply create.tfplan
         """
         }
@@ -87,8 +88,10 @@ node() {
       }
       stage ('Destroy instance'){
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
-        sh 'terraform destroy -force ./jproject_101'
-
+        sh """
+          cd ./jproject_101
+          terraform destroy -force
+        """
         }
       }
 
