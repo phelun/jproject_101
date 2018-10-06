@@ -65,6 +65,7 @@ node() {
 
 
       stage ("Creating AMI"){
+        echo "${seperator60}\n${seperator20} Creating AMI \n${seperator60}"
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
         sh """
            cd ./jproject_101/br4u-terraform-infra/golden-images/golden-ami-python-br4u
@@ -90,6 +91,7 @@ node() {
 
       }
       stage ('EC2 spinup') {
+        echo "${seperator60}\n${seperator20} Spinning Up instance(s) \n${seperator60}"
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
         sh """
            cd ./jproject_101/br4u-terraform-infra/brexit4u-dev-django
@@ -113,6 +115,7 @@ node() {
            }
       }
       stage ('Destroy instance'){
+        echo "${seperator60}\n${seperator20} Destroyinh instances(s) \n${seperator60}"
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
         sh """
           cd ./jproject_101/br4u-terraform-infra/brexit4u-dev-django
