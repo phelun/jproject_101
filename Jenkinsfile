@@ -67,7 +67,7 @@ node() {
       stage ("Creating AMI"){
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
         sh """
-           cd ./jproject/br4u-terraform-infra/golden-images/golden-ami-python-br4u
+           cd ./jproject_101/br4u-terraform-infra/golden-images/golden-ami-python-br4u
            packer validate packer.json
            packer build packer.jason
         """
