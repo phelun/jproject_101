@@ -28,7 +28,8 @@
     "run_tags": {"Name": "me-image"},
     "tags": {
       "Release": "Latest",
-      "Runner": "centos"
+      "Os": "centos",
+      "environ": "dev"
     }
   }],
 
