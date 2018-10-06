@@ -29,29 +29,28 @@ def seperator60 = '\u2739' * 60
 def seperator20 = '\u2739' * 20
 
 node() {
-      stage ('step 1') {
+      stage ('AWS CLI TOOL') {
         echo "${seperator60}\n${seperator20} AWScli Version \n${seperator60}"
         sh "aws --version"
         sh "git clone https://github.com/phelun/jproject_101.git"
       }
 
-      stage ('step2 ') {
+      stage ('TERRAFORM TOOL ') {
         echo "${seperator60}\n${seperator20} Terraform Version \n${seperator60}"
         sh "terraform --version"
       }
 
-      stage ('step 3') {
+      stage ('PACKER TOOL') {
         echo "${seperator60}\n${seperator20} Packer Version \n${seperator60}"
         sh "packer --version"
-        sh "ls -R"
       }
 
-      stage ('step 4'){
+      stage ('ANSIBLE TOOL'){
+        echo "${seperator60}\n${seperator20} Ansible Version \n${seperator60}"
         sh "ansible --version"
-        sh "which ansible-playbook"
       }
 
-      stage ("Terraform Ahead") {
+      stage ("Prepare AMI") {
            try {
              timeout(time: 30, unit: 'MINUTES') {
                input message: 'Proceed to next stage?'
@@ -64,10 +63,36 @@ node() {
            }
       }
 
+
+      stage ("Creating AMI"){
+        withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
+        sh """
+           cd ./jproject/br4u-terraform-infra/golden-images/golden-ami-python-br4u
+           packer validate packer.json
+           packer build packer.jason
+        """
+        }
+
+      stage ("AMI Ready lets spin up instances") {
+           try {
+             timeout(time: 30, unit: 'MINUTES') {
+               input message: 'Proceed to next stage?'
+             }
+           }
+           catch (err) {
+               echo "Aborted by user!"
+               currentBuild.result = 'ABORTED'
+               error('Job Aborted')
+           }
+      }
+
+
+
+      }
       stage ('EC2 spinup') {
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
         sh """
-           cd ./jproject_101
+           cd ./jproject_101/br4u-terraform-infra/brexit4u-dev-django
            terraform init
            terraform plan -out=create.tfplan
            terraform apply create.tfplan
@@ -90,7 +115,7 @@ node() {
       stage ('Destroy instance'){
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
         sh """
-          cd ./jproject_101
+          cd ./jproject_101/br4u-terraform-infra/brexit4u-dev-django
           terraform destroy -force
         """
         }
