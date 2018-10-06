@@ -76,7 +76,7 @@ node() {
       stage ("Creating AMI"){
         echo "${seperator60}\n${seperator20} Creating AMI \n${seperator60}"
         echo "run_ami_step : ${run_ami_step}"
-        if {run_ami_step == "false"} {
+        if (run_ami_step == "false") {
         echo "\u2739 run_ami_step set to false, skipping ami creation"
         } else {
           if (dry_run == true ) {echo "Dry Run, skipping" ; return }
