@@ -1,5 +1,0 @@
-{
-    "displayName" : "MaaSLabLoadTest",
-    "tags" : ["Environment=MaaSLab"],
-    "properties" : {"Project" : "MaaSLab", "LoadTestTool" : "JMeter"}
-}
