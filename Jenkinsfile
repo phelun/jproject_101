@@ -14,19 +14,28 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import java.net.URL
 
-/**
+
 properties([
   parameters([
-    string(
-      description: "This is my default ami creted with packer",
-      name: "ADM-ID"
+    booleanParam(
+      description: "Untick the box if AMI is existing",
+      name: "run_ami_step",
+      default: true,
     )
   ])
 ])
-*/
+
+def dry_run = false
+if (dry_run == true ) {
+  run_ami_step = false
+}
 
 def seperator60 = '\u2739' * 60
 def seperator20 = '\u2739' * 20
+def job_name = "${env.JOB_NAME}"
+def jon_number = "${env.JOB_NUMBER}"
+
+echo "\u2739 job_name=${job_name}"
 
 node() {
       stage ('AWS CLI TOOL') {
@@ -66,6 +75,12 @@ node() {
 
       stage ("Creating AMI"){
         echo "${seperator60}\n${seperator20} Creating AMI \n${seperator60}"
+        echo "run_ami_step : ${run_ami_step}"
+        if {run_ami_step == "false"} {
+        echo "\u2739 run_ami_step set to false, skipping ami creation"
+        } else {
+          if (dry_run == true ) {echo "Dry Run, skipping" ; return }
+          echo "\u2739 starting ami creation"
         withCredentials([usernamePassword(credentialsId: 'me_aws_id', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
         sh """
            cd ./jproject_101/br4u-terraform-infra/golden-images/golden-ami-python-br4u
@@ -73,6 +88,7 @@ node() {
            packer build packer.json
         """
         }
+       }
 
       stage ("AMI Ready lets spin up instances") {
            try {
