@@ -41,7 +41,9 @@ node() {
       stage ('AWS CLI TOOL') {
         echo "${seperator60}\n${seperator20} AWScli Version \n${seperator60}"
         sh "aws --version"
-        sh "git clone https://github.com/phelun/jproject_101.git"
+        /** sh "git clone https://github.com/phelun/jproject_101.git" */
+        deleteDir()
+        checkout scm
       }
 
       stage ('TERRAFORM TOOL ') {
