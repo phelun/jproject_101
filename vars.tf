@@ -11,5 +11,11 @@ variable "AWS_REGION" {
 }
 
 variable "AMIS" {
-  default = "ami-3548444c"
+  type = "map"
+
+  default = {
+    us-east-1 = "ami-3548444c"
+    us-west-2 = "ami-4c457735"
+    eu-west-1 = "ami-1caef165"
+  }
 }
