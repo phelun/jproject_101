@@ -12,7 +12,7 @@ data "aws_ami" "amzn_linux" {
   most_recent = true
 
   filter {
-    name = "status"
+    name = "state"
     values = ["available"]
   }
 
