@@ -69,7 +69,7 @@ node() {
         sh """
            cd ./jproject_101/br4u-terraform-infra/golden-images/golden-ami-python-br4u
            packer validate packer.json
-           packer build packer.jason
+           packer build packer.json
         """
         }
 
