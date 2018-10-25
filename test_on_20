@@ -1,0 +1,2 @@
+n Python 2 I guess they assumed programmers wanted to actually "execute" as a command the user input, since initially (I guess) requesting input from user might only be for that. But when they realised programmers might also want to get the "raw" input, they designed another function called 
+
