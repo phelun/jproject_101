@@ -42,6 +42,15 @@ RUN apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" --no-install-recommends openjdk-8-jre-headless &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
+RUN apt-get -q update &&\ 
+    apt-get install maven -y 
+
+RUN wget https://services.gradle.org/distributions/gradle-5.1-bin.zip -P /tmp/ &&\ 
+    unzip -d /opt/gradle /tmp/gradle-*.zip &&\
+    echo "export GRADLE_HOME=/opt/gradle/gradle-5.1" >> /etc/profile.d/gradle.sh &&\ 
+    echo "export PATH=${GRADLE_HOME}/bin:${PATH}" >> /etc/profile.d/gradle.sh &&\ 
+    /bin/bash -c "source /etc/profile.d/gradle.sh"
+
 
 RUN useradd -m -d /home/jenkins -s /bin/sh jenkins && echo "jenkins:jenkins" | chpasswd
 RUN sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure # Fixed Some issues with java SSL problem https://stackoverflow.com/questions/6784463/error-trustanchors-parameter-must-be-non-empty
